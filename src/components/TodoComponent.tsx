@@ -125,6 +125,7 @@ export const TodoComponent: React.FC<TodoComponentProps> = ({
             type="text"
             className="todo__title-field"
             value={inputValue}
+            placeholder="Empty todo will be deleted"
             onChange={onChangeHandler}
             onKeyDown={onKeyDownHandler}
           />
