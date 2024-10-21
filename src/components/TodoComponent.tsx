@@ -11,8 +11,7 @@ interface TodoComponentProps {
   inputRef: React.MutableRefObject<HTMLInputElement | null>;
   onTodoDelete: (todoId: number) => void;
   onTodoToggle: (todoId: number, currentCompletedStatus: boolean) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onUpdateTodo: any;
+  onUpdateTodo: (updatedTodo: Todo) => Promise<void>;
 }
 
 export const TodoComponent: React.FC<TodoComponentProps> = ({

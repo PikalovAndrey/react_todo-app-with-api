@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { Todo } from '../types/Todo';
 import { TodoComponent } from './TodoComponent';
@@ -10,7 +9,7 @@ interface TodoListProps {
   inputRef: React.MutableRefObject<HTMLInputElement | null>;
   onTodoDelete: (todoId: number) => void;
   onTodoToggle: (todoId: number, currentCompletedStatus: boolean) => void;
-  onUpdateTodo: any;
+  onUpdateTodo: (updatedTodo: Todo) => Promise<void>;
 }
 
 export const TodoList: React.FC<TodoListProps> = ({

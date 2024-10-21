@@ -14,6 +14,9 @@ export const addTodo = (newTodo: Omit<Todo, 'id'>): Promise<Todo> => {
   return client.post('/todos', newTodo);
 };
 
-export const changeTodo = (todoId: number, updatedFields: Partial<Todo>) => {
+export const changeTodo = (
+  todoId: number,
+  updatedFields: Partial<Todo>,
+): Promise<void> => {
   return client.patch(`/todos/${todoId}`, updatedFields);
 };

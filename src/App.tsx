@@ -4,6 +4,7 @@ import { FilterOptions, ErrorMessages } from './enums/';
 import { filteredTodos, loadTodos } from './utils/';
 import { Header, Footer, TodoList, Errors } from './components/';
 import { useTodos } from './hooks/useTodos';
+import { updateTodos } from './utils/updateTodo';
 
 export const App: React.FC = () => {
   const [filter, setFilter] = useState<FilterOptions>(FilterOptions.ALL);
@@ -60,55 +61,28 @@ export const App: React.FC = () => {
       .filter(todo => todo.completed !== hasIncompleteTodos)
       .map(todo => todo.id);
 
-    setLoadingTodosCount(current => [...current, ...todosForToggling]);
-
-    Promise.all(
-      todosForToggling.map(id =>
-        changeTodo(id, { completed: hasIncompleteTodos })
-          .then(() => {
-            setTodos(currentTodos =>
-              currentTodos.map(todo =>
-                todo.id === id
-                  ? { ...todo, completed: hasIncompleteTodos }
-                  : todo,
-              ),
-            );
-          })
-          .catch(() => {
-            setErrorMessage(ErrorMessages.UPDATING_ERROR);
-          })
-          .finally(() => {
-            setLoadingTodosCount(current =>
-              current.filter(loadingId => loadingId !== id),
-            );
-          }),
-      ),
+    updateTodos(
+      todosForToggling,
+      hasIncompleteTodos,
+      setLoadingTodosCount,
+      setTodos,
+      setErrorMessage,
+      changeTodo,
     );
-  }, [setLoadingTodosCount, todos]);
+  }, [todos, setLoadingTodosCount, setTodos, setErrorMessage, changeTodo]);
 
   const handleTodoToggle = useCallback(
     (todoId: number, currentCompletedStatus: boolean) => {
-      setLoadingTodosCount(current => [...current, todoId]);
-      changeTodo(todoId, { completed: !currentCompletedStatus })
-        .then(() => {
-          setTodos(currentTodos =>
-            currentTodos.map(todo =>
-              todo.id === todoId
-                ? { ...todo, completed: !todo.completed }
-                : todo,
-            ),
-          );
-        })
-        .catch(() => {
-          setErrorMessage(ErrorMessages.UPDATING_ERROR);
-        })
-        .finally(() => {
-          setLoadingTodosCount(current =>
-            current.filter(deletingTodoId => todoId !== deletingTodoId),
-          );
-        });
+      updateTodos(
+        [todoId],
+        !currentCompletedStatus,
+        setLoadingTodosCount,
+        setTodos,
+        setErrorMessage,
+        changeTodo,
+      );
     },
-    [setLoadingTodosCount, setTodos],
+    [setLoadingTodosCount, setTodos, setErrorMessage, changeTodo],
   );
 
   const todosAfterFiltering = useMemo(
