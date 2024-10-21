@@ -6,8 +6,8 @@ export const getTodos = () => {
   return client.get<Todo[]>(`/todos?userId=${USER_ID}`);
 };
 
-export const deleteTodos = (todoId: number) => {
-  return client.delete(`/todos/${todoId}`);
+export const deleteTodos = (todoId: number): Promise<void> => {
+  return client.delete(`/todos/${todoId}`).then(() => {});
 };
 
 export const addTodo = (newTodo: Omit<Todo, 'id'>): Promise<Todo> => {
@@ -16,7 +16,7 @@ export const addTodo = (newTodo: Omit<Todo, 'id'>): Promise<Todo> => {
 
 export const changeTodo = (
   todoId: number,
-  updatedFields: Partial<Todo>,
+  updatedFields?: Partial<Todo>,
 ): Promise<void> => {
   return client.patch(`/todos/${todoId}`, updatedFields);
 };
