@@ -14,12 +14,15 @@ export const updateTodos = (
   setLoadingTodosCount(current => [...current, ...todoIds]);
 
   const promises = todoIds.map(id => {
-    const action =
-      newStatus !== null
-        ? operation(id, { completed: newStatus })
-        : deleteOperation
-          ? deleteOperation(id)
-          : operation(id);
+    let action;
+
+    if (newStatus !== null) {
+      action = operation(id, { completed: newStatus });
+    } else if (deleteOperation) {
+      action = deleteOperation(id);
+    } else {
+      action = operation(id);
+    }
 
     return action
       .then(() => {

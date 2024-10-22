@@ -97,7 +97,7 @@ export const TodoComponent: React.FC<TodoComponentProps> = ({
     if (isEditing && inputRef.current) {
       inputRef.current.focus();
     }
-  }, [isEditing, inputRef]); //?
+  }, [isEditing, inputRef]);
 
   return (
     <div

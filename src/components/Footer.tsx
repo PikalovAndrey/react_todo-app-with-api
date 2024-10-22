@@ -19,11 +19,12 @@ export const Footer: FC<FooterProps> = ({
   onCompletedTodosDeleted,
 }) => {
   const atLeastOneIsActive = todos.some(todo => todo.completed);
+  const leftTodos = todos.length - completedTodos.length;
 
   return (
     <footer className="todoapp__footer" data-cy="Footer">
       <span className="todo-count" data-cy="TodosCounter">
-        {todos.length - completedTodos.length} items left
+        {leftTodos} items left
       </span>
 
       <nav className="filter" data-cy="Filter">
