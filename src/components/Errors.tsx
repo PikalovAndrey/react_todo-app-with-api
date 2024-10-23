@@ -16,7 +16,7 @@ export const Errors: FC<ErrorsProps> = ({ errorMessage, setErrorMessage }) => {
 
       return () => clearTimeout(timer);
     }
-  }, [errorMessage]);
+  }, [errorMessage, setErrorMessage]);
 
   return (
     <div
